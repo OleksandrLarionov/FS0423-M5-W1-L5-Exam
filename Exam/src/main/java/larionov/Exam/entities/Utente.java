@@ -1,11 +1,20 @@
 package larionov.Exam.entities;
 
-import java.util.List;
+import jakarta.persistence.*;
 
+
+import java.util.List;
+@Entity
+@Table(name = "utente")
 public class Utente {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idUtente;
     private String userName;
     private String nome;
     private String cognome;
     private String email;
-    private List<Postazione> postazioniPrenotate;
+    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+    private List<Prenotazione> prenotazioni;
+
 }

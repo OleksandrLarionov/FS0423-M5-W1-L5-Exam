@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
@@ -21,4 +22,26 @@ public class Utente {
     @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
     private List<Prenotazione> prenotazioni;
 
+    public Utente(String userName, String nome, String cognome, String email) {
+        this.userName = userName;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.email = email;
+        this.prenotazioni = new ArrayList<>();
+    }
+
+    public void aggiungiLaPrenotazione(Prenotazione prenotazione){
+        prenotazioni.add(prenotazione);
+    }
+
+    @Override
+    public String toString() {
+        return "Utente{" +
+                "idUtente=" + idUtente +
+                ", userName='" + userName + '\'' +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

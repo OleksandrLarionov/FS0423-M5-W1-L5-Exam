@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+import java.util.ArrayList;
 import java.util.List;
 @NoArgsConstructor
 @Getter
@@ -29,4 +30,29 @@ public class Edificio {
             inverseJoinColumns = @JoinColumn(name = "id_postazione")
     )
     private List<Postazione> postazioni;
+
+    public Edificio(String nomeDelEdificio, String indirizzo, CITTA citta) {
+        this.nomeDelEdificio = nomeDelEdificio;
+        this.indirizzo = indirizzo;
+        this.citta = citta;
+        this.postazioni = new ArrayList<>();
+    }
+
+    public void aggiungiLaPostazioneAllEdificio(Postazione postazione){
+        postazioni.add(postazione);
+    }
+
+    public void listaPostazioniNellEdificio(){
+        postazioni.forEach(System.out::println);
+    }
+
+    @Override
+    public String toString() {
+        return "Edificio{" +
+                "id=" + id +
+                ", nomeDelEdificio='" + nomeDelEdificio + '\'' +
+                ", indirizzo='" + indirizzo + '\'' +
+                ", citta=" + citta +
+                '}';
+    }
 }

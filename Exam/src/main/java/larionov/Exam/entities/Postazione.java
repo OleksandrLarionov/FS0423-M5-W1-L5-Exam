@@ -7,7 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -32,4 +35,27 @@ public class Postazione {
 
     @ManyToMany(mappedBy = "postazioni")
     private List<Edificio> edifici;
+
+    public Postazione(String descrizione, TIPOPOSTAZIONE tipoDellaPostazione, Edificio edificio) {
+        this.descrizione = descrizione;
+        this.tipoDellaPostazione = tipoDellaPostazione;
+        Random rndm = new Random();
+        if(tipoDellaPostazione == TIPOPOSTAZIONE.PRIVATO) numeroMassimoDiOccupanti = 1;
+        else this.numeroMassimoDiOccupanti = rndm.nextInt(1,10);
+        this.edificio = edificio;
+        this.statoDellaPostazione = STATO.LIBERA;
+        this.prenotazioni = new ArrayList<>();
+        this.edifici = new ArrayList<>();
+    }
+
+    @Override
+    public String toString() {
+        return "Postazione{" +
+                "descrizione='" + descrizione + '\'' +
+                ", tipoDellaPostazione=" + tipoDellaPostazione +
+                ", numeroMassimoDiOccupanti=" + numeroMassimoDiOccupanti +
+                ", edificio=" + edificio +
+                ", statoDellaPostazione=" + statoDellaPostazione +
+                '}';
+    }
 }

@@ -23,4 +23,19 @@ public class Prenotazione {
     @JoinColumn(name = "id_utente")
     private Utente utente;
 
+    public Prenotazione(Postazione postazione, Utente utente) {
+        this.postazione = postazione;
+        this.dataDellaPrenotazione = LocalDate.now();
+        this.utente = utente;
+    }
+
+    @Override
+    public String toString() {
+        return "Prenotazione{" +
+                "id=" + id +
+                ", postazione=" + postazione +
+                ", dataDellaPrenotazione=" + dataDellaPrenotazione +
+                ", utente=" + utente +
+                '}';
+    }
 }

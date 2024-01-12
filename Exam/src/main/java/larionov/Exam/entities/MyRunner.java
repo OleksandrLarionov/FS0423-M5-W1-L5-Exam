@@ -14,6 +14,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 @Component
@@ -64,10 +65,18 @@ public class MyRunner implements CommandLineRunner {
         postazioneService.salvaLaPostazioneNelDb(postazione4);
         postazioneService.salvaLaPostazioneNelDb(postazione5);
 
-//        ******************Creazione Prenotazioni & aggiornamento stato postazione nel DB*************************
+//        ******************Creazione Prenotazioni & aggiornamento stato postazione nel DB lo stesso giorno e un altro giorno*************************
 
         Prenotazione aldoPrenota = new Prenotazione(postazione3,aldo);
         prenotazioneService.salvaLaPrenotazioneNelDb(aldoPrenota);
+
+        Prenotazione aldoPrenotaStessoGiorno = new Prenotazione(postazione5,aldo);
+        prenotazioneService.salvaLaPrenotazioneNelDb(aldoPrenotaStessoGiorno);
+
+        Prenotazione aldoPrenotaGiornoDopo = new Prenotazione(postazione5,aldo);
+        aldoPrenotaGiornoDopo.setDataDellaPrenotazione(LocalDate.now().plusDays(5));
+        System.out.println(aldoPrenotaGiornoDopo);
+        prenotazioneService.salvaLaPrenotazioneNelDb(aldoPrenotaGiornoDopo);
 
 //        ******************Test Prenotazione Postazione occupata*************************
 

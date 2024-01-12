@@ -24,7 +24,8 @@ public class PrenotazioneService {
 
     public void salvaLaPrenotazioneNelDb(Prenotazione prenotazione) {
         Long idPostazione = prenotazione.getPostazione().getId();
-        if (prenotazione.getPostazione().getStatoDellaPostazione() != STATO.OCCUPATA) {
+        if (prenotazione.getPostazione().getStatoDellaPostazione() != STATO.OCCUPATA
+                && !controlloPrenotazione(prenotazione.getUtente())) {
             prenotazioneDAO.save(prenotazione);
             prenotazione.getPostazione().setStatoDellaPostazione(STATO.OCCUPATA);
             postazioneService.findByIdAndUpdate(idPostazione, prenotazione.getPostazione());
@@ -35,7 +36,8 @@ public class PrenotazioneService {
                     " " + "per il giono " + prenotazione.getDataDellaPrenotazione() +
                     " " + prenotazione.getPostazione());
 
-        } else log.info("****La Postazione è Occupata*******" + "Puoi comunque riprovare domani " + prenotazione.getUtente().getNome());
+        } else if(controlloPrenotazione(prenotazione.getUtente())) log.info("****Hai gia prenotato per oggi da un altra parte AIO*******" + prenotazione.getUtente().getNome());
+        else log.info("****La Postazione è Occupata*******" + "Puoi comunque riprovare domani " + prenotazione.getUtente().getNome());
     }
 
     public Boolean controlloPrenotazione(Utente utente){

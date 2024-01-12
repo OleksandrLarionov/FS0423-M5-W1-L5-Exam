@@ -30,6 +30,7 @@ public class Prenotazione {
         this.utente = utente;
     }
 
+
     @Override
     public String toString() {
         return "Prenotazione{" +

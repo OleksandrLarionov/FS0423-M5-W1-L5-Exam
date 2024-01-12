@@ -3,10 +3,14 @@ package larionov.Exam.DAO;
 import larionov.Exam.ENUM.STATO;
 import larionov.Exam.entities.Postazione;
 import larionov.Exam.entities.Prenotazione;
+import larionov.Exam.entities.Utente;
 import larionov.Exam.exceptions.ItemNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -15,6 +19,8 @@ public class PrenotazioneService {
     private PrenotazioneDAO prenotazioneDAO;
     @Autowired
     PostazioneService postazioneService;
+    @Autowired
+    private UtenteDAO utenteDAO;
 
     public void salvaLaPrenotazioneNelDb(Prenotazione prenotazione) {
         Long idPostazione = prenotazione.getPostazione().getId();
@@ -28,7 +34,16 @@ public class PrenotazioneService {
                     " " + prenotazione.getUtente().getCognome() +
                     " " + "per il giono " + prenotazione.getDataDellaPrenotazione() +
                     " " + prenotazione.getPostazione());
+
         } else log.info("****La Postazione è Occupata*******" + "Puoi comunque riprovare domani " + prenotazione.getUtente().getNome());
+    }
+
+    public Boolean controlloPrenotazione(Utente utente){
+        utenteDAO.findById(utente.getIdUtente());
+        List<Prenotazione> tutteLePrenotazioni = prenotazioneDAO.findByUtente(utente);
+        boolean checkPrenotazioni = tutteLePrenotazioni.stream()
+                .anyMatch(prenotazione -> prenotazione.getDataDellaPrenotazione().isEqual(LocalDate.now()));
+        return checkPrenotazioni;
     }
 
     public Prenotazione findById(long id) throws ItemNotFoundException {
@@ -41,5 +56,10 @@ public class PrenotazioneService {
         found.setUtente(prenotazione.getUtente());
         prenotazioneDAO.save(found);
         log.info("Prenotazione con id: " + id + " aggiornata con successo!");
+    }
+
+
+    public List<Prenotazione> filterByUtente(Utente utente) {
+        return prenotazioneDAO.findByUtente(utente);
     }
 }

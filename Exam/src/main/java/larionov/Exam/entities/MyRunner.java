@@ -68,11 +68,20 @@ public class MyRunner implements CommandLineRunner {
 
         Prenotazione aldoPrenota = new Prenotazione(postazione3,aldo);
         prenotazioneService.salvaLaPrenotazioneNelDb(aldoPrenota);
+
 //        ******************Test Prenotazione Postazione occupata*************************
+
         Prenotazione giovanniPrenotaIlPostoDiAldo = new Prenotazione(postazione3,giovanni);
         prenotazioneService.salvaLaPrenotazioneNelDb(giovanniPrenotaIlPostoDiAldo);
 
+//        ******************Cerca per stato postazione*************************
 
         postazioneService.filterByStatoDellaPostazione(STATO.LIBERA).forEach(System.out::println);
+
+//        ****Prenotazioni per utente**********
+        prenotazioneService.filterByUtente(aldo).forEach(System.out::println);
+
+//        ******************Cerca per tipo e citta*************************
+//        postazioneService.filterByTipoECitta(TIPOPOSTAZIONE.PRIVATO,CITTA.ROMA).forEach(System.out::println);
     }
 }

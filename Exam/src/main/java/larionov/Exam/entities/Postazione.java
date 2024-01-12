@@ -40,8 +40,8 @@ public class Postazione {
         this.descrizione = descrizione;
         this.tipoDellaPostazione = tipoDellaPostazione;
         Random rndm = new Random();
-        if(tipoDellaPostazione == TIPOPOSTAZIONE.PRIVATO) numeroMassimoDiOccupanti = 1;
-        else this.numeroMassimoDiOccupanti = rndm.nextInt(1,10);
+        if(tipoDellaPostazione == TIPOPOSTAZIONE.PRIVATO) numeroMassimoDiOccupanti = rndm.nextInt(1,5);
+        else if(tipoDellaPostazione == TIPOPOSTAZIONE.OPENSPACE || tipoDellaPostazione == TIPOPOSTAZIONE.SALA_RIUNIONI) this.numeroMassimoDiOccupanti = rndm.nextInt(50,1000);
         this.edificio = edificio;
         this.statoDellaPostazione = STATO.LIBERA;
         this.prenotazioni = new ArrayList<>();

@@ -1,6 +1,7 @@
 package larionov.Exam.entities;
 
 import jakarta.persistence.*;
+import larionov.Exam.ENUM.STATO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class Prenotazione {
 
     public Prenotazione(Postazione postazione, Utente utente) {
         this.postazione = postazione;
+//        this.postazione.setStatoDellaPostazione(STATO.OCCUPATA);
         this.dataDellaPrenotazione = LocalDate.now();
         this.utente = utente;
     }

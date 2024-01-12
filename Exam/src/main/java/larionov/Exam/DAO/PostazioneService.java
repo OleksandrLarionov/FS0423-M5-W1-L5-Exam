@@ -1,11 +1,14 @@
 package larionov.Exam.DAO;
 
+import larionov.Exam.ENUM.STATO;
 import larionov.Exam.entities.Postazione;
 import larionov.Exam.entities.Prenotazione;
 import larionov.Exam.exceptions.ItemNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -25,5 +28,9 @@ public class PostazioneService {
         found.setStatoDellaPostazione(postazione.getStatoDellaPostazione());
         postazioneDAO.save(found);
         log.info("Prenotazione con id: " + id + " aggiornata con successo!");
+    }
+
+    public List<Postazione> filterByStatoDellaPostazione(STATO stato) {
+        return postazioneDAO.findByStatoDellaPostazione(stato);
     }
 }

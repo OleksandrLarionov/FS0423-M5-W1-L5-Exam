@@ -6,6 +6,7 @@ import larionov.Exam.DAO.PostazioneService;
 import larionov.Exam.DAO.PrenotazioneService;
 import larionov.Exam.DAO.UtenteService;
 import larionov.Exam.ENUM.CITTA;
+import larionov.Exam.ENUM.STATO;
 import larionov.Exam.ENUM.TIPOPOSTAZIONE;
 import larionov.Exam.GestionePrenotazioniApplication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,10 @@ public class MyRunner implements CommandLineRunner {
     public static AnnotationConfigApplicationContext ctx;
     @Override
     public void run(String... args) throws Exception {
-        ctx = new AnnotationConfigApplicationContext(GestionePrenotazioniApplication.class);
+//        ctx = new AnnotationConfigApplicationContext(GestionePrenotazioniApplication.class);
+
 //        ******************Creazione Utenti*************************
-        Utente aldo = new Utente("giovanni"+rndm.nextInt(1,100),"Aldo","Baglio","aldo.baglio@mail.com");
+        Utente aldo = new Utente("aldo"+rndm.nextInt(1,100),"Aldo","Baglio","aldo.baglio@mail.com");
         Utente giovanni = new Utente("giovanni"+rndm.nextInt(1,100),"Giovanni","Storti","giovanni.storti@mail.com");
         Utente giacomo = new Utente("giacomo"+rndm.nextInt(1,100),"Giacomo","Poretti","giacomo.poretti@mail.com");
 
@@ -62,10 +64,15 @@ public class MyRunner implements CommandLineRunner {
         postazioneService.salvaLaPostazioneNelDb(postazione4);
         postazioneService.salvaLaPostazioneNelDb(postazione5);
 
-//        ******************Creazione Prenotazioni*************************
+//        ******************Creazione Prenotazioni & aggiornamento stato postazione nel DB*************************
 
         Prenotazione aldoPrenota = new Prenotazione(postazione3,aldo);
         prenotazioneService.salvaLaPrenotazioneNelDb(aldoPrenota);
+//        ******************Test Prenotazione Postazione occupata*************************
+        Prenotazione giovanniPrenotaIlPostoDiAldo = new Prenotazione(postazione3,giovanni);
+        prenotazioneService.salvaLaPrenotazioneNelDb(giovanniPrenotaIlPostoDiAldo);
 
+
+        postazioneService.filterByStatoDellaPostazione(STATO.LIBERA).forEach(System.out::println);
     }
 }

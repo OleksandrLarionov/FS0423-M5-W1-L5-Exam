@@ -17,19 +17,24 @@ public class PrenotazioneService {
     PostazioneService postazioneService;
 
     public void salvaLaPrenotazioneNelDb(Prenotazione prenotazione) {
-        prenotazioneDAO.save(prenotazione);
         Long idPostazione = prenotazione.getPostazione().getId();
-        postazioneService.findByIdAndUpdate(idPostazione,prenotazione.getPostazione());
+        if (prenotazione.getPostazione().getStatoDellaPostazione() != STATO.OCCUPATA) {
+            prenotazioneDAO.save(prenotazione);
+            prenotazione.getPostazione().setStatoDellaPostazione(STATO.OCCUPATA);
+            postazioneService.findByIdAndUpdate(idPostazione, prenotazione.getPostazione());
 
-        log.info("La prenotazione è stata confermata a nome " +
-                " " + prenotazione.getUtente().getNome() +
-                " " + prenotazione.getUtente().getCognome() +
-                " " + "per il giono " + prenotazione.getDataDellaPrenotazione() +
-                " " + prenotazione.getPostazione());
+            log.info("La prenotazione è stata confermata a nome " +
+                    " " + prenotazione.getUtente().getNome() +
+                    " " + prenotazione.getUtente().getCognome() +
+                    " " + "per il giono " + prenotazione.getDataDellaPrenotazione() +
+                    " " + prenotazione.getPostazione());
+        } else log.info("****La Postazione è Occupata*******" + "Puoi comunque riprovare domani " + prenotazione.getUtente().getNome());
     }
+
     public Prenotazione findById(long id) throws ItemNotFoundException {
         return prenotazioneDAO.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
     }
+
     public void findByIdAndUpdate(long id, Prenotazione prenotazione) {
         Prenotazione found = this.findById(id);
         found.setPostazione(prenotazione.getPostazione());

@@ -26,7 +26,6 @@ public class Prenotazione {
 
     public Prenotazione(Postazione postazione, Utente utente) {
         this.postazione = postazione;
-//        this.postazione.setStatoDellaPostazione(STATO.OCCUPATA);
         this.dataDellaPrenotazione = LocalDate.now();
         this.utente = utente;
     }
